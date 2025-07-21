@@ -1,14 +1,20 @@
+// src/AppRouter.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import DashboardLayout from './components/DashboardLayout';
 import Dashboard from './pages/Dashboard';
 
 export default function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />} />
+        </Route>
+
+        <Route path="*" element={<LoginPage />} />
       </Routes>
     </Router>
   );

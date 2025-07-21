@@ -1,11 +1,6 @@
-// src/pages/Dashboard.jsx
-import React from 'react';
+// src/pages/DashboardPage.jsx
+import { Typography } from '@mui/material';
 
-export default function Dashboard() {
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Selamat datang di dashboard.</p>
-    </div>
-  );
+export default function DashboardPage() {
+  return <Typography variant="h4">Selamat datang di Dashboard!</Typography>;
 }

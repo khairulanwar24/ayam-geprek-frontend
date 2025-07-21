@@ -2,6 +2,16 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../functions/api/api';
 
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Paper
+} from '@mui/material';
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -15,9 +25,6 @@ export default function LoginPage() {
     try {
       const res = await api.post('/auth/login', { username, password });
       if (res.data.success) {
-        // Optional: simpan token/user info (jika tidak pakai cookie saja)
-        // localStorage.setItem('token', res.data.data.token);
-
         navigate('/dashboard');
       } else {
         setErrorMsg(res.data.message || 'Login gagal');
@@ -29,46 +36,46 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-8 rounded shadow-md w-96 space-y-4"
-      >
-        <h2 className="text-2xl font-bold text-center">Login Admin</h2>
+    <Container maxWidth="sm">
+      <Paper elevation={3} sx={{ padding: 4, marginTop: 10 }}>
+        <Typography variant="h5" align="center" gutterBottom>
+          Login Admin
+        </Typography>
 
         {errorMsg && (
-          <div className="text-red-500 text-sm text-center">{errorMsg}</div>
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {errorMsg}
+          </Alert>
         )}
 
-        <div>
-          <label className="block text-sm mb-1">Username</label>
-          <input
-            type="text"
+        <Box component="form" onSubmit={handleLogin} noValidate>
+          <TextField
+            label="Username"
+            fullWidth
+            margin="normal"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
             required
           />
-        </div>
-
-        <div>
-          <label className="block text-sm mb-1">Password</label>
-          <input
+          <TextField
+            label="Password"
             type="password"
+            fullWidth
+            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
             required
           />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          Login
-        </button>
-      </form>
-    </div>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 2 }}
+          >
+            Login
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
