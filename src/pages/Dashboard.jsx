@@ -11,7 +11,7 @@ export default function DashboardPage() {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={4}>
           <Paper elevation={3} style={{ padding: 16 }}>
-            <Typography variant="subtitle1">Total Pengguna</Typography>
+            <Typography variant="subtitle1">Total User</Typography>
             <Typography variant="h5">123</Typography>
           </Paper>
         </Grid>
