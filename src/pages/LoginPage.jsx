@@ -1,21 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../functions/api/api';
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
-import {
-  Container,
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Alert,
-  Paper
-} from '@mui/material';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleLogin = async (e) => {
@@ -36,46 +29,56 @@ export default function LoginPage() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ padding: 4, marginTop: 10 }}>
-        <Typography variant="h5" align="center" gutterBottom>
-          Login Admin
-        </Typography>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light" style={{ backgroundImage: "url('/bg-login.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="card p-4 shadow" style={{ width: '100%', maxWidth: '400px', backgroundColor: 'rgba(255,255,255,0.95)' }}>
+        <h4 className="text-center mb-4">Login Admin</h4>
 
         {errorMsg && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <div className="alert alert-danger" role="alert">
             {errorMsg}
-          </Alert>
+          </div>
         )}
 
-        <Box component="form" onSubmit={handleLogin} noValidate>
-          <TextField
-            label="Username"
-            fullWidth
-            margin="normal"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 2 }}
-          >
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">Username</label>
+            <input
+              type="text"
+              id="username"
+              className="form-control"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Password</label>
+            <div className="input-group">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                className="form-control"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+              >
+                {showPassword ? <BsEyeSlashFill /> : <BsEyeFill />}
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" className="btn btn-primary w-100">
             Login
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
