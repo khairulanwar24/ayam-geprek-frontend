@@ -1,4 +1,4 @@
-// src/pages/DashboardPage.jsx
+
 import { Grid, Typography, Paper } from '@mui/material';
 
 export default function DashboardPage() {
