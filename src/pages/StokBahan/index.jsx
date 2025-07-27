@@ -9,15 +9,16 @@ export default function StokBahanPage() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  const fetchData = async () => {
+    const fetchData = async () => {
     try {
-      const res = await getStokBahan();
-      console.log("Response backend:", response.data);
-      setData(res.data.data);
+        const res = await getStokBahan();
+        setData(res.data.data.data); // ✅ ambil array-nya langsung
     } catch (err) {
-      console.error(err);
+        console.error(err);
     }
-  };
+    };
+
+
 
   useEffect(() => {
     fetchData();
@@ -38,15 +39,28 @@ export default function StokBahanPage() {
     fetchData();
   };
 
-  const handleSave = async (formData) => {
-    if (selected) {
-      await updateStokBahan(selected.id_stok_bahan, formData);
-    } else {
-      await createStokBahan(formData);
+    const handleSave = async (formData) => {
+    const payload = {
+        ...formData,
+        stok: parseInt(formData.stok, 10), // <- perbaikan di sini
+    };
+
+    console.log("Payload yang dikirim:", payload);
+
+    try {
+        if (selected) {
+        await updateStokBahan(selected.id_stok_bahan, payload);
+        } else {
+        await createStokBahan(payload);
+        }
+        setOpen(false);
+        fetchData();
+    } catch (err) {
+        console.error("Gagal simpan:", err.response?.data || err.message);
     }
-    setOpen(false);
-    fetchData();
-  };
+    };
+
+
 
   return (
     <Container>

@@ -1,13 +1,19 @@
-import { Outlet, useNavigate } from 'react-router-dom';
 import {
-  Box, CssBaseline, AppBar, Toolbar, Typography,
-  Drawer, List, ListItem, ListItemText, ListItemIcon
+  Drawer, List, ListItemIcon, ListItemText, ListItemButton,
+  AppBar, Toolbar, Typography, Box, CssBaseline
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
+
+const menuItems = [
+  { label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+  { label: 'Stok Bahan', icon: <InventoryIcon />, path: '/dashboard/stok' },
+  { label: 'Logout', icon: <LogoutIcon />, path: '/login' }
+];
 
 export default function MainLayout() {
   const navigate = useNavigate();
@@ -36,20 +42,15 @@ export default function MainLayout() {
       >
         <Toolbar />
         <List>
-          <ListItem button onClick={() => navigate('/dashboard')}>
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-
-          <ListItem button onClick={() => navigate('/dashboard/stok')}>
-            <ListItemIcon><InventoryIcon /></ListItemIcon>
-            <ListItemText primary="Stok Bahan" />
-          </ListItem>
-
-          <ListItem button onClick={() => navigate('/login')}>
-            <ListItemIcon><LogoutIcon /></ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
+          {menuItems.map((item) => (
+            <ListItemButton
+              key={item.label}
+              onClick={() => navigate(item.path)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          ))}
         </List>
       </Drawer>
 
